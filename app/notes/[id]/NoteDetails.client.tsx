@@ -8,10 +8,11 @@ import css from './NoteDetails.module.css';
 
 const NoteDetailsClient = () => {
   const { id } = useParams<{ id: string }>();
+  console.log(id);
   const {
     data: note,
     isLoading,
-    isError,
+    // isError,
   } = useQuery({
     queryKey: ['myNote', id],
     queryFn: () => fetchNoteById(id),
@@ -20,6 +21,7 @@ const NoteDetailsClient = () => {
 
   return (
     <div>
+      {/* {isError && <p>Something went wrong.</p>} */}
       {note && (
         <div className={css.container}>
           <div className={css.item}>
@@ -32,7 +34,6 @@ const NoteDetailsClient = () => {
         </div>
       )}
       {isLoading && <Loader />}
-      {isError && <p>Something went wrong.</p>}
     </div>
   );
 };

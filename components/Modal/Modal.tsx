@@ -7,7 +7,13 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-export default function Modal({ onClose, children }: ModalProps) {
+export default function Modal({ children, onClose }: ModalProps) {
+  const onBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -21,12 +27,6 @@ export default function Modal({ onClose, children }: ModalProps) {
     };
   }, [onClose]);
 
-  const onBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   return createPortal(
     <div
       className={css.backdrop}
@@ -34,7 +34,12 @@ export default function Modal({ onClose, children }: ModalProps) {
       aria-modal="true"
       onClick={onBackdropClick}
     >
-      <div className={css.modal}>{children}</div>
+      <div className={css.modal}>
+        <button type="button" className={css.closeBtn} onClick={onClose}>
+          ×
+        </button>
+        {children}
+      </div>
     </div>,
     document.body
   );

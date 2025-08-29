@@ -13,21 +13,24 @@ interface FetchNotesResponse {
 
 export async function fetchNotes(
   page: number,
-  query: string = ''
+  query: string = '',
+  tag?: string
 ): Promise<FetchNotesResponse> {
   const axiosOptions = {
     params: {
       perPage: 12,
       page,
       search: query,
+      ...(tag ? { tag } : {}),
     },
   };
+
   const response = await axios.get<FetchNotesResponse>('/notes', axiosOptions);
 
   return response.data;
 }
 
-export const fetchNoteById = async (id: string) => {
+export const fetchNoteById = async (id: string): Promise<Note> => {
   const response = await axios.get<Note>(`/notes/${id}`);
 
   return response.data;

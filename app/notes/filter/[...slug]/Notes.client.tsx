@@ -12,15 +12,18 @@ import NoteList from '@/components/NoteList/NoteList';
 import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
 
-const NotesClient = () => {
+interface NotesClientProps {
+  tag: string;
+}
+
+const NotesClient = ({ tag }: NotesClientProps) => {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
   const { data, isLoading, isSuccess } = useQuery({
-    queryKey: ['myNotes', page, searchValue],
-    queryFn: () => fetchNotes(page, searchValue),
-    enabled: page !== 0,
+    queryKey: ['myNotes', page, searchValue, tag],
+    queryFn: () => fetchNotes(page, searchValue, tag),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });
@@ -46,15 +49,16 @@ const NotesClient = () => {
             onSelect={page => setPage(page)}
           />
         )}
-        <button className={css.button} onClick={openModal}>
+        <button className={css.button} onClick={openModal} type="button">
           Create note +
         </button>
       </header>
-
       {isLoading && !data && <Loader />}
-
-      {isSuccess && data?.notes.length > 0 && <NoteList notes={data.notes} />}
-
+      {isSuccess && data && data?.notes.length > 0 ? (
+        <NoteList notes={data.notes} />
+      ) : (
+        !isLoading && <p>Notes not found</p>
+      )}
       {isModalOpen && (
         <Modal onClose={closeModal}>
           <NoteForm onClose={closeModal} />
