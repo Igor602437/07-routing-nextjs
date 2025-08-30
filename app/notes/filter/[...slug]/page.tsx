@@ -15,7 +15,7 @@ const Notes = async ({ params }: NotesProps) => {
   const tag = slug[0] === 'All' ? '' : slug[0];
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ['myNotes'],
+    queryKey: ['notes', tag],
     queryFn: () => fetchNotes(1, '', tag),
   });
 

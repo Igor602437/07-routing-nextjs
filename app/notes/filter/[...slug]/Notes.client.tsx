@@ -22,7 +22,7 @@ const NotesClient = ({ tag }: NotesClientProps) => {
   const [searchValue, setSearchValue] = useState('');
 
   const { data, isLoading, isSuccess } = useQuery({
-    queryKey: ['myNotes', page, searchValue, tag],
+    queryKey: ['notes', page, searchValue, tag],
     queryFn: () => fetchNotes(page, searchValue, tag),
     placeholderData: keepPreviousData,
     refetchOnMount: false,

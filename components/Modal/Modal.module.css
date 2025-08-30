@@ -22,11 +22,11 @@
 
 .closeBtn {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  top: 12px;
+  right: 12px;
   background: none;
   border: none;
-  font-size: 1.25rem;
+  font-size: 40px;
   color: #6c757d;
   cursor: pointer;
   transition: color 0.2s ease-in-out;

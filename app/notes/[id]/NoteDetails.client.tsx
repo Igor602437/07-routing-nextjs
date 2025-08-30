@@ -3,16 +3,21 @@
 import Loader from '@/components/Loader/Loader';
 import { fetchNoteById } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import css from './NoteDetails.module.css';
 
 const NoteDetailsClient = () => {
+  const router = useRouter();
+  const handleClose = () => {
+    router.back();
+  };
+
   const { id } = useParams<{ id: string }>();
   console.log(id);
   const {
     data: note,
     isLoading,
-    // isError,
+    isError,
   } = useQuery({
     queryKey: ['myNote', id],
     queryFn: () => fetchNoteById(id),
@@ -21,7 +26,8 @@ const NoteDetailsClient = () => {
 
   return (
     <div>
-      {/* {isError && <p>Something went wrong.</p>} */}
+      {isLoading && <Loader />}
+      {isError && <p>Something went wrong.</p>}
       {note && (
         <div className={css.container}>
           <div className={css.item}>
@@ -29,11 +35,21 @@ const NoteDetailsClient = () => {
               <h2>{note.title}</h2>
             </div>
             <p className={css.content}>{note.content}</p>
-            <p className={css.date}>{note.createdAt}</p>
+            <div className={css.footer}>
+              <span className={css.tag}>{note.tag}</span>
+              <p className={css.date}>
+                Created{' '}
+                {new Date(note.createdAt)
+                  .toLocaleString('sv-SE')
+                  .replace(' ', ' ')}
+              </p>
+            </div>
           </div>
+          <button type="button" onClick={handleClose} className={css.backBtn}>
+            Go Back
+          </button>
         </div>
       )}
-      {isLoading && <Loader />}
     </div>
   );
 };

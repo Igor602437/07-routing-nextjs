@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   max-width: 800px;
   margin: 32px auto;
   padding: 24px;
@@ -34,6 +37,12 @@
   white-space: pre-wrap;
 }
 
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .date {
   font-size: 14px;
   color: #888;
@@ -58,11 +67,17 @@
   align-self: flex-start;
   padding: 6px 12px;
   font-size: 14px;
-  color: #000000;
+  color: #ffffff;
   border: none;
+  border-width: 2px;
   border-radius: 4px;
   cursor: pointer;
   text-decoration: underline;
   display: inline-block;
-  background-color: transparent;
+  background-color: #6b95d4;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.backBtn:hover {
+  background-color: #375d96;
 }

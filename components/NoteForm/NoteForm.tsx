@@ -29,7 +29,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     mutationFn: (newNote: NewNote) => createNote(newNote),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['myNotes'],
+        queryKey: ['notes'],
       });
       onClose();
     },

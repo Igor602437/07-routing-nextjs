@@ -14,24 +14,42 @@ const NotePreviewClient = () => {
   };
 
   const { id } = useParams<{ id: string }>();
-  const { data: note, isLoading } = useQuery({
-    queryKey: ['myNotes', id],
+  const {
+    data: note,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['notes', id],
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
 
   return (
     <Modal onClose={handleClose}>
+      {isLoading && <Loader />}
+      {isError && <p>Something went wrong.</p>}
       {note && (
         <div className={css.container}>
-          <h2 className={css.title}>{note.title}</h2>{' '}
-          <p className={css.content}>{note.content}</p>
+          <div className={css.item}>
+            <div className={css.header}>
+              <h2>{note.title}</h2>
+            </div>
+            <p className={css.content}>{note.content}</p>
+          </div>
           <div className={css.footer}>
             <span className={css.tag}>{note.tag}</span>
+            <p className={css.date}>
+              Created{' '}
+              {new Date(note.createdAt)
+                .toLocaleString('sv-SE')
+                .replace(' ', ' ')}
+            </p>
           </div>
+          <button type="button" onClick={handleClose} className={css.backBtn}>
+            Go Back
+          </button>
         </div>
       )}
-      {isLoading && <Loader />}
     </Modal>
   );
 };

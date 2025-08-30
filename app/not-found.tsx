@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import css from './HomePage.module.css';
+import css from './notFound.module.css';
 
 const NotFound = () => {
   return (
-    <div>
+    <div className={css.notFound}>
       <h1 className={css.title}>404 - Page not found</h1>
       <p className={css.description}>
         Sorry, the page you are looking for does not exist.
